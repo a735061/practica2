@@ -1,5 +1,6 @@
 #!/bin/bash
-#Alejandro Adell Pina 735061
+# Alejandro Adell Pina 735061
+# Felix Garcia Rodriguez 746207 
 if [ "$#" = 1 ]    #Numero de argumentos
 then 
 	if [ -f "$1" ]
