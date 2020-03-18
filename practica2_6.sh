@@ -2,45 +2,38 @@
 # Alejandro Adell Pina 735061
 # Felix Garcia Rodriguez 746207 
 
-cuenta=0
+nBin=$(find $HOME -type d -name "*bin???" | wc -l) #numero directorios con nombre *bin???
 
-# Comprobar si ya existe un directorio del tipo binXXX
-if find /home/"$USER"/bin[[:alnum:]][[:alnum:]][[:alnum:]] -maxdepth 1 -type d > /dev/null 2>&1
+if [ $nBin == 0 ]
 then
-  # Obtener el menos recientemente modificado
-  nom=$(stat -c %n%Y /home/"$USER"/bin[[:alnum:]][[:alnum:]][[:alnum:]] | tail -n 1)
-  nom=${nom::-10}
-else 
-  # Crear el directorio
-  nom=$(mktemp -d -q /home/"$USER"/binXXX)
-  echo "Se ha creado el directorio $nom"
+	dBin=$(mktemp -d $HOME/binXXX)   #crea directorio temporal
+	echo "Se ha creado el directorio $dBin"
+else
+	dBinB=$(ls -lht $HOME | grep bin[a-zA-Z0-9] | tail -n 1 |cut -d " " -f 12) #lht da formato y ordena por tiempo modificacion 
+	dBin="$HOME/$dBinB"
 fi
 
-echo "Directorio destino de copia: $nom"
+copias=0
+echo "Directorio destino de copia: $dBin"
 
-# Para cada fichero en el directorio actual
-for fichero in ./*
+for archivo in ./*
 do
-  # Comprobar que sea ejecutable
-  if [ -x "$fichero" -a -f "$fichero" ]
-  then
-    # Copiarlo al directorio destino
-    if cp "$fichero" "$nom"
-    then
-      echo "$fichero ha sido copiado a $nom"
-      cuenta=$((cuenta += 1))
-    else
-      echo "$fichero no ha podido ser copiado a $nom"
-    fi
-  fi
+	if [ -x "$archivo" -a -f "$archivo" ] #si es archivo ejecutable
+	then
+	if	cp "$archivo" "$dBin"
+	then
+		let "copias+=1"
+		echo "$archivo ha sido copiado a $dBin"
+	else
+		echo "$archivo no ha podido ser copiado a $dBin"
+	fi
 done
 
-# Mostrar el numero de ejecutables copiados
-if [ "$cuenta" -gt 0 ]
-then
-  echo "Se han copiado $cuenta archivos"
-else
-  echo "No se ha copiado ningun archivo"
-fi
- 
+if [ $copias == 0 ]
+ then
+     echo "No se ha copiado ningun archivo"
+ else
+     echo "Se han copiado $copias archivos"
+ fi
+
 
