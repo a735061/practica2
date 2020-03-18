@@ -1,5 +1,6 @@
 #!/bin/bash
 # Alejandro Adell Pina 735061
+# Felix Garcia Rodriguez 746207 
 es_numero='[0-9]'
 es_letra='[a-zA-Z]'
 read -n 1 -p "Introduzca una tecla: " tecla #leer 1 caracter
