@@ -1,5 +1,6 @@
 #!/bin/bash
 # Alejandro Adell Pina 735061
+# Felix Garcia Rodriguez 746207 
 
 nBin=$(find $HOME -type d -name "*bin???" | wc -l) #numero directorios con nombre *bin???
 
@@ -19,9 +20,12 @@ for archivo in ./*
 do
 	if [ -x "$archivo" -a -f "$archivo" ] #si es archivo ejecutable
 	then
-		cp "$archivo" "$dBin"
+	if	cp "$archivo" "$dBin"
+	then
 		let "copias+=1"
 		echo "$archivo ha sido copiado a $dBin"
+	else
+		echo "$archivo no ha podido ser copiado a $dBin"
 	fi
 done
 
