@@ -1,5 +1,6 @@
 #!/bin/bash
 # Alejandro Adell Pina 735061
+# Felix Garcia Rodriguez 746207 
 echo -n 'Introduzca el nombre de un directorio: '
 read directorio
 if [ -d "$directorio" ]
